@@ -1,0 +1,104 @@
+version: "3.9"
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2017-CU8-ubuntu
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: 1qazXSW@
+    ports:
+      - "1433:1433"
+    container_name: mssql
+  eureka-server:
+    image: ms/eureka-server:latest
+    container_name: eureka-server
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+      args:
+        - APP_NAME=eureka-server
+        - APP_VERSION=0.0.1
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    expose:
+      - 8761
+    ports:
+      - "8761:8761"
+  book-service:
+    image: ms/book-service:latest
+    container_name: book-service
+    restart: on-failure
+    build:
+      context: ./book-service
+      dockerfile: Dockerfile
+      args:
+        - APP_NAME=book-service
+        - APP_VERSION=0.0.1
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    expose:
+      - 8081
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+      - eureka-server
+  student-service:
+    image: ms/student-service:latest
+    container_name: student-service
+    restart: on-failure
+    build:
+      context: ./student-service
+      dockerfile: Dockerfile
+      args:
+        - APP_NAME=student-service
+        - APP_VERSION=0.0.1
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    expose:
+      - 8082
+    ports:
+      - "8082:8082"
+    depends_on:
+      - db
+      - eureka-server
+  auth-service:
+    image: ms/auth-service:latest
+    container_name: auth-service
+    restart: on-failure
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+      args:
+        - APP_NAME=auth-service
+        - APP_VERSION=0.0.1
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    expose:
+      - 8083
+    ports:
+      - "8083:8083"
+    depends_on:
+      - db
+      - eureka-server
+  gateway-server:
+    image: ms/gateway-server:latest
+    container_name: gateway-server
+    restart: on-failure
+    build:
+      context: ./gateway-server
+      dockerfile: Dockerfile
+      args:
+        - APP_NAME=gateway-server
+        - APP_VERSION=0.0.1
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    expose:
+      - 8080
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - auth-service
+      - student-service
+      - book-service
+      - eureka-server

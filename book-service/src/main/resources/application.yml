@@ -1,0 +1,36 @@
+# service name
+spring:
+  application:
+    name: book-service
+  jackson:
+    default-property-inclusion: non_null
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.SQLServer2012Dialect
+    show-sql: off
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=book;trustServerCertificate=true;
+    username: sa
+    password: 1qazXSW@
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  # port
+server:
+  port: 8081
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: on_param
+    include-exception: false
+  # eureka server url
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
