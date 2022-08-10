@@ -9,7 +9,7 @@ server:
 eureka:
   client:
     service-url:
-      default-zone: http://localhost:8761/eureka
+      default-zone: http://eureka-server:8761/eureka
 spring:
   application:
     name: gateway-server
@@ -44,7 +44,7 @@ spring:
           - RewritePath=/auth/(?<path>.*), /$\{path}
 
       - id: openapi
-        uri: http://localhost:${server.port}
+        uri: http://${spring.application.name}:${server.port}
         predicates:
           - Path=/v3/api-docs/**
         filters:

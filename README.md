@@ -79,7 +79,7 @@ $ ./mvnw clean spring-boot:run
 |  auth-service   | 8083 |
 |  book-service   | 8081 |
 
-### Run project with docker compose (Pending...)
+### Run project with docker compose
 
 **Build project**
 ```shell

@@ -14,7 +14,7 @@ spring:
     show-sql: off
   datasource:
 
-    url: jdbc:sqlserver://localhost:1433;databaseName=auth;trustServerCertificate=true;
+    url: jdbc:sqlserver://mssql:1433;databaseName=auth;trustServerCertificate=true;
     username: sa
     password: 1qazXSW@
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
@@ -30,10 +30,7 @@ server:
 eureka:
   client:
     service-url:
-      default-zone: http://localhost:8761/eureka
-  instance:
-    prefer-ip-address: true
-    hostname: localhost
+      default-zone: http://eureka-server:8761/eureka
 
 jwt:
   secret: BvPHGM8C0ia4uOuxxqPD5DTbWC9F9TWvPStp3pb7ARo0oK2mJ3pd3YG4lxA9i8bj6OTbadwezxgeEByY

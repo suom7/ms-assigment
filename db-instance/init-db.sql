@@ -1,0 +1,3 @@
+CREATE DATABASE [auth];
+CREATE DATABASE [student];
+CREATE DATABASE [book];
